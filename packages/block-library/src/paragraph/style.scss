@@ -38,8 +38,9 @@ p.has-text-color a {
 
 .wp-gs p {
 	color: var(--wp-paragraph--color, var(--wp-color--text));
-	font-size: var(--wp-typography--fontSize);
-	font-weight: var(--wp-typography--fontWeight);
-	line-height: var(--wp-paragraph--lineHeight, var(--wp-typography--lineHeight));
-
+	font-family: var(--wp--core-paragraph--textFontFamily, var(--wp--textFontFamily));
+	font-size: var(--wp--core-paragraph--textFontSize, var(--wp--textFontSize));
+	font-weight: var(--wp--core-paragraph--textFontWeight, var(--wp--textFontWeight));
+	line-height: var(--wp--core-paragraph--textLineHeight, var(--wp--textLineHeight));
+	letter-spacing: var(--wp--core-paragraph--textLetterSpacing, var(--wp--textLetterSpacing));
 }

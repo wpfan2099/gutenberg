@@ -21,8 +21,8 @@ function Sidebar() {
 			aria-label={ __( 'Site editor advanced settings.' ) }
 			tabIndex="-1"
 		>
-			<Panel header={ __( 'Global Styles' ) }>
-				<GlobalStylesPanel bubblesVirtually />
+			<Panel header={ __( 'Design' ) }>
+				<GlobalStylesPanel />
 			</Panel>
 			<Panel header={ __( 'Inspector' ) }>
 				<InspectorSlot bubblesVirtually />

@@ -36,27 +36,40 @@ function useGlobalStylesEnvironment() {
 				'editor-styles-wrapper'
 			)[ 0 ];
 
-			const targetNode = editorNode || document.documentElement;
-
-			if ( ! targetNode.classList.contains( 'wp-gs' ) ) {
-				targetNode.classList.add( 'wp-gs' );
+			if ( ! editorNode.classList.contains( 'wp-gs' ) ) {
+				editorNode.classList.add( 'wp-gs' );
+				document.body.classList.remove( 'wp-gs' );
+			} else {
+				document.body.classList.add( 'wp-gs' );
 			}
+			document.body.classList.remove( 'wp-gs' );
 		} );
 	}, [] );
 }
 
-function flattenObject( ob ) {
+function convertToUnitValue( key, value ) {
+	const units = {
+		textLetterSpacing: 'px',
+		textFontSize: 'px',
+	};
+	if ( units[ key ] ) {
+		return `${ value }${ units[ key ] }`;
+	}
+	return value;
+}
+
+function flattenStyles( ob ) {
 	const toReturn = {};
 
 	for ( const i in ob ) {
 		if ( ! ob.hasOwnProperty( i ) ) continue;
 
 		if ( typeof ob[ i ] === 'object' ) {
-			const flatObject = flattenObject( ob[ i ] );
+			const flatObject = flattenStyles( ob[ i ] );
 			for ( const x in flatObject ) {
 				if ( ! flatObject.hasOwnProperty( x ) ) continue;
-
-				toReturn[ i + '.' + x ] = flatObject[ x ];
+				const v = flatObject[ x ];
+				toReturn[ i + '.' + x ] = convertToUnitValue( x, v );
 			}
 		} else {
 			toReturn[ i ] = ob[ i ];
@@ -65,22 +78,38 @@ function flattenObject( ob ) {
 	return toReturn;
 }
 
+function getFlattenedStyles( styles = {} ) {
+	const flattenedStyles = { ...flattenStyles( styles ) };
+	const nextStyles = {};
+
+	for ( const key in flattenedStyles ) {
+		const value = flattenedStyles[ key ];
+		if ( key.includes( 'global.' ) ) {
+			nextStyles[ key.replace( 'global.', '' ) ] = value;
+		} else {
+			nextStyles[ key.replace( '/', '-' ) ] = value;
+		}
+	}
+
+	return nextStyles;
+}
+
 function compileStyles( styles = {} ) {
-	const flattenedStyles = { ...flattenObject( styles ) };
 	const html = [];
+	const flattenedStyles = getFlattenedStyles( styles );
 	html.push( ':root {' );
 
 	for ( const key in flattenedStyles ) {
 		const value = flattenedStyles[ key ];
 		if ( value ) {
-			const style = `--wp-${ key.replace( /\./g, '--' ) }: ${ value };`;
+			const style = `--wp--${ key.replace( /\./g, '--' ) }: ${ value };`;
 			html.push( style );
 		}
 	}
 	html.push( '}' );
 
 	html.push(
-		'.editor-styles-wrapper { background-color: var(--wp-color--background); }'
+		'.editor-styles-wrapper { background-color: var(--wp--color--background); }'
 	);
 
 	return html.join( '\n' );

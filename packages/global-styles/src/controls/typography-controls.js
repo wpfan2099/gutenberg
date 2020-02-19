@@ -1,60 +1,74 @@
 /**
+ * External dependencies
+ */
+import { isEmpty } from 'lodash';
+/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { RangeControl } from '@wordpress/components';
+import { TextControl } from '@wordpress/components';
 
 /**
  * Internal dependencies
  */
 import { GlobalStylesPanelBody } from '../global-styles-panel-body';
 import { useGlobalStylesState } from '../store';
+import { useGlobalStylesTextDesignAttributes } from '../attributes';
 
 export default function TypographyControls() {
+	const { updateStyles } = useGlobalStylesState();
+	const attributes = useGlobalStylesTextDesignAttributes();
+
 	const {
-		fontSize,
-		fontScale,
-		lineHeight,
-		fontWeight,
-		setStyles,
-	} = useGlobalStylesState();
+		textFontFamily,
+		textFontSize,
+		textLineHeight,
+		textLetterSpacing,
+	} = attributes;
+
+	if ( isEmpty( attributes ) ) return null;
 
 	return (
-		<GlobalStylesPanelBody
-			title={ __( 'Typography' ) }
-			initialOpen={ false }
-		>
-			<RangeControl
+		<GlobalStylesPanelBody title={ __( 'Text' ) }>
+			<TextControl
+				label={ __( 'Font Family' ) }
+				value={ textFontFamily }
+				placeholder="Default"
+				name="Font Family"
+				onChange={ ( value ) =>
+					updateStyles( { textFontFamily: value } )
+				}
+			/>
+			<TextControl
 				label={ __( 'Font Size' ) }
-				value={ fontSize }
-				min={ 10 }
-				max={ 30 }
+				value={ textFontSize }
 				step={ 1 }
-				onChange={ ( value ) => setStyles( { fontSize: value } ) }
+				name="Font Size"
+				type="number"
+				onChange={ ( value ) =>
+					updateStyles( { textFontSize: value } )
+				}
 			/>
-			<RangeControl
-				label={ __( 'Font Scale' ) }
-				value={ fontScale }
-				min={ 1.1 }
-				max={ 1.4 }
-				step={ 0.025 }
-				onChange={ ( value ) => setStyles( { fontScale: value } ) }
-			/>
-			<RangeControl
+			<TextControl
 				label={ __( 'Line Height' ) }
-				value={ lineHeight }
-				min={ 1 }
+				value={ textLineHeight }
 				max={ 2 }
 				step={ 0.1 }
-				onChange={ ( value ) => setStyles( { lineHeight: value } ) }
+				name="Line Height"
+				type="number"
+				onChange={ ( value ) =>
+					updateStyles( { textLineHeight: value } )
+				}
 			/>
-			<RangeControl
-				label={ __( 'Font Weight' ) }
-				value={ fontWeight }
-				min={ 100 }
-				max={ 900 }
-				step={ 100 }
-				onChange={ ( value ) => setStyles( { fontWeight: value } ) }
+			<TextControl
+				label={ __( 'Letter Spacing' ) }
+				value={ textLetterSpacing }
+				type="number"
+				name="Letter Spacing"
+				step={ 0.1 }
+				onChange={ ( value ) =>
+					updateStyles( { textLetterSpacing: value } )
+				}
 			/>
 		</GlobalStylesPanelBody>
 	);
