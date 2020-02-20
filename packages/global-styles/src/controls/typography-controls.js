@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { TextControl } from '@wordpress/components';
+import { TextControls } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -22,53 +22,49 @@ export default function TypographyControls() {
 	const {
 		textFontFamily,
 		textFontSize,
+		textFontWeight,
 		textLineHeight,
 		textLetterSpacing,
+		textAlignment,
 	} = attributes;
 
 	if ( isEmpty( attributes ) ) return null;
 
+	const handleOnChange = ( { prop: nextProp, value: nextValue } ) => {
+		switch ( nextProp ) {
+			case 'fontFamily':
+				updateStyles( { textFontFamily: nextValue } );
+				break;
+			case 'fontSize':
+				updateStyles( { textFontSize: nextValue } );
+				break;
+			case 'fontWeight':
+				updateStyles( { textFontWeight: nextValue } );
+				break;
+			case 'letterSpacing':
+				updateStyles( { textLetterSpacing: nextValue } );
+				break;
+			case 'lineHeight':
+				updateStyles( { textLineHeight: nextValue } );
+				break;
+			case 'textAlign':
+				updateStyles( { textAlignment: nextValue } );
+				break;
+			default:
+				break;
+		}
+	};
+
 	return (
 		<GlobalStylesPanelBody title={ __( 'Text' ) }>
-			<TextControl
-				label={ __( 'Font Family' ) }
-				value={ textFontFamily }
-				placeholder="Default"
-				name="Font Family"
-				onChange={ ( value ) =>
-					updateStyles( { textFontFamily: value } )
-				}
-			/>
-			<TextControl
-				label={ __( 'Font Size' ) }
-				value={ textFontSize }
-				step={ 1 }
-				name="Font Size"
-				type="number"
-				onChange={ ( value ) =>
-					updateStyles( { textFontSize: value } )
-				}
-			/>
-			<TextControl
-				label={ __( 'Line Height' ) }
-				value={ textLineHeight }
-				max={ 2 }
-				step={ 0.1 }
-				name="Line Height"
-				type="number"
-				onChange={ ( value ) =>
-					updateStyles( { textLineHeight: value } )
-				}
-			/>
-			<TextControl
-				label={ __( 'Letter Spacing' ) }
-				value={ textLetterSpacing }
-				type="number"
-				name="Letter Spacing"
-				step={ 0.1 }
-				onChange={ ( value ) =>
-					updateStyles( { textLetterSpacing: value } )
-				}
+			<TextControls
+				fontFamily={ textFontFamily }
+				fontSize={ textFontSize }
+				fontWeight={ textFontWeight }
+				lineHeight={ textLineHeight }
+				letterSpacing={ textLetterSpacing }
+				textAlign={ textAlignment }
+				onChange={ handleOnChange }
 			/>
 		</GlobalStylesPanelBody>
 	);

@@ -43,4 +43,5 @@ p.has-text-color a {
 	font-weight: var(--wp--core-paragraph--textFontWeight, var(--wp--textFontWeight));
 	line-height: var(--wp--core-paragraph--textLineHeight, var(--wp--textLineHeight));
 	letter-spacing: var(--wp--core-paragraph--textLetterSpacing, var(--wp--textLetterSpacing));
+	text-align: var(--wp--core-paragraph--textAlignment, var(--wp--textAlignment));
 }

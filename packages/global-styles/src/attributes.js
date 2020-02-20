@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { isUndefined } from 'lodash';
+import { noop, isUndefined } from 'lodash';
 
 /**
  * WordPress dependencies
@@ -113,7 +113,10 @@ export const useGlobalStylesControls = ( {
 	isSelected = false,
 	name,
 } ) => {
-	const { setAttributes, setCurrentBlock } = useGlobalStylesState();
+	const {
+		setAttributes = noop,
+		setCurrentBlock = noop,
+	} = useGlobalStylesState();
 
 	useEffect( () => {
 		const resetAttributes = () => {
