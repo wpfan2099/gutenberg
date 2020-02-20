@@ -47,7 +47,7 @@ const fontWeightOptions = [
 const createOnChangeHandler = ( onChange = noop, prop ) => ( value ) =>
 	onChange( { prop, value } );
 
-export function TextControls( {
+export function TextStyleControls( {
 	fontFamily,
 	fontSize,
 	fontWeight,
@@ -309,4 +309,4 @@ const ButtonGroupView = styled( ButtonGroup )`
 	}
 `;
 
-export default TextControls;
+export default TextStyleControls;

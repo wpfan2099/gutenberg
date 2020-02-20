@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { TextControls } from '@wordpress/components';
+import { TextStyleControls } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -57,7 +57,7 @@ export default function TypographyControls() {
 
 	return (
 		<GlobalStylesPanelBody title={ __( 'Text' ) }>
-			<TextControls
+			<TextStyleControls
 				fontFamily={ textFontFamily }
 				fontSize={ textFontSize }
 				fontWeight={ textFontWeight }
