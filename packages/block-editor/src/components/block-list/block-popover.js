@@ -52,6 +52,7 @@ function BlockPopover( {
 	moverDirection,
 	isEmptyDefaultBlock,
 	capturingClientId,
+	isGlobalStylesModeEnabled,
 } ) {
 	const {
 		isNavigationMode,
@@ -71,6 +72,7 @@ function BlockPopover( {
 		! isNavigationMode && isEmptyDefaultBlock && isValid;
 	const shouldShowBreadcrumb = isNavigationMode;
 	const shouldShowContextualToolbar =
+		! isGlobalStylesModeEnabled &&
 		! isNavigationMode &&
 		! hasFixedToolbar &&
 		isLargeViewport &&
@@ -270,6 +272,8 @@ function wrapperSelector( select ) {
 			];
 	}
 
+	const { getGlobalStylesMode } = select( 'core/editor' );
+
 	return {
 		clientId,
 		rootClientId: getBlockRootClientId( clientId ),
@@ -280,6 +284,7 @@ function wrapperSelector( select ) {
 		isEmptyDefaultBlock:
 			name && isUnmodifiedDefaultBlock( { name, attributes } ),
 		capturingClientId,
+		isGlobalStylesModeEnabled: getGlobalStylesMode(),
 	};
 }
 
@@ -299,6 +304,7 @@ export default function WrappedBlockPopover() {
 		moverDirection,
 		isEmptyDefaultBlock,
 		capturingClientId,
+		isGlobalStylesModeEnabled,
 	} = selected;
 
 	if ( ! name ) {
@@ -315,6 +321,7 @@ export default function WrappedBlockPopover() {
 			moverDirection={ moverDirection }
 			isEmptyDefaultBlock={ isEmptyDefaultBlock }
 			capturingClientId={ capturingClientId }
+			isGlobalStylesModeEnabled={ isGlobalStylesModeEnabled }
 		/>
 	);
 }

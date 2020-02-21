@@ -6,7 +6,8 @@ import { noop, isUndefined } from 'lodash';
 /**
  * WordPress dependencies
  */
-import { useEffect } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
+import { useRef } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -108,39 +109,19 @@ export const extractGlobalStylesDesignAttributes = createAttributesExtractor(
 	getDesignAttributes()
 );
 
-export const useGlobalStylesControls = ( {
-	attributes = {},
-	isSelected = false,
-	name,
-} ) => {
-	const {
-		setAttributes = noop,
-		setCurrentBlock = noop,
-	} = useGlobalStylesState();
+export const useGlobalStylesControls = () => {
+	const { setCurrentBlock = noop } = useGlobalStylesState();
 
-	useEffect( () => {
-		const resetAttributes = () => {
-			setAttributes( {} );
-			setCurrentBlock( 'global' );
-		};
+	const blockIdRef = useRef();
+	const block = useSelectedBlock();
+	const { clientId, name } = block;
 
-		if ( isSelected ) {
-			const currentAttributes = extractGlobalStylesDesignAttributes(
-				attributes
-			);
-			setAttributes( currentAttributes );
-			// HACK: Work-around
-			window.requestAnimationFrame( () => {
-				setCurrentBlock( name );
-			} );
-		} else {
-			resetAttributes();
-		}
-
-		return () => {
-			resetAttributes();
-		};
-	}, [ isSelected ] );
+	// Work around to help sync wp.data block selection with current global styles state
+	if ( ! blockIdRef.current !== clientId ) {
+		blockIdRef.current = clientId;
+		// setAttributes( attributes );
+		setCurrentBlock( clientId ? name : 'global' );
+	}
 };
 
 export const useGlobalStylesCurrentAttributes = () => {
@@ -160,4 +141,22 @@ export const useGlobalStylesCoreDesignAttributes = () => {
 export const useGlobalStylesTextDesignAttributes = () => {
 	const attributes = useGlobalStylesCurrentAttributes();
 	return extractTextDesignAttributes( attributes );
+};
+
+// TODO: NEED A BETTER WAY TO DO THIS!!!!!
+// Currently very unstable as the update cycles are not synced with wp.data
+export const useSelectedBlock = () => {
+	const block = useSelect( ( select ) => {
+		const { getBlockSelectionStart, getBlock } = select(
+			'core/block-editor'
+		);
+		const selectedBlockId = getBlockSelectionStart();
+		const selectedBlock = selectedBlockId
+			? getBlock( selectedBlockId )
+			: {};
+
+		return selectedBlock;
+	}, [] );
+
+	return { name: 'global', ...block };
 };

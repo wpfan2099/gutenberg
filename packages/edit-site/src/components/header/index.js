@@ -6,6 +6,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
+import GlobalStylesModeButton from './global-styles-button';
 import SaveButton from '../save-button';
 
 export default function Header() {
@@ -20,6 +21,7 @@ export default function Header() {
 				{ __( 'Site Editor' ) } { __( '(beta)' ) }
 			</h1>
 			<div className="edit-site-header__actions">
+				<GlobalStylesModeButton />
 				<SaveButton />
 			</div>
 		</div>

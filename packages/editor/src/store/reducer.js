@@ -375,6 +375,17 @@ export function editorSettings( state = EDITOR_SETTINGS_DEFAULTS, action ) {
 	return state;
 }
 
+export function globalStylesMode( state = false, action ) {
+	switch ( action.type ) {
+		case 'ENABLE_GLOBAL_STYLES':
+			return true;
+		case 'DISABLE_GLOBAL_STYLES':
+			return false;
+	}
+
+	return state;
+}
+
 export default optimist(
 	combineReducers( {
 		postId,
@@ -388,5 +399,6 @@ export default optimist(
 		isReady,
 		editorSettings,
 		postAutosavingLock,
+		globalStylesMode,
 	} )
 );

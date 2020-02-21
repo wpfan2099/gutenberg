@@ -889,3 +889,15 @@ export const insertDefaultBlock = getBlockEditorAction( 'insertDefaultBlock' );
 export const updateBlockListSettings = getBlockEditorAction(
 	'updateBlockListSettings'
 );
+
+export function enableGlobalStylesMode() {
+	return {
+		type: 'ENABLE_GLOBAL_STYLES',
+	};
+}
+
+export function disableGlobalStylesMode() {
+	return {
+		type: 'DISABLE_GLOBAL_STYLES',
+	};
+}

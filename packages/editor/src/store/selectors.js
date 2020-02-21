@@ -1734,3 +1734,5 @@ export const hasInserterItems = getBlockEditorSelector( 'hasInserterItems' );
 export const getBlockListSettings = getBlockEditorSelector(
 	'getBlockListSettings'
 );
+
+export const getGlobalStylesMode = ( state ) => state.globalStylesMode;

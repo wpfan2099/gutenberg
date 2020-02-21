@@ -81,15 +81,10 @@ function ParagraphBlock( {
 	onReplace,
 	setAttributes,
 	setFontSize,
-	isSelected,
 } ) {
 	const { align, content, dropCap, placeholder, direction } = attributes;
 
-	useGlobalStylesControls( {
-		attributes,
-		name: 'core/paragraph',
-		isSelected,
-	} );
+	useGlobalStylesControls();
 
 	const ref = useRef();
 	const dropCapMinimumHeight = useDropCapMinimumHeight( dropCap, [
