@@ -7,7 +7,13 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { useMemo, useState, Fragment, useRef } from '@wordpress/element';
+import {
+	useMemo,
+	useState,
+	Fragment,
+	useRef,
+	useEffect,
+} from '@wordpress/element';
 import {
 	InnerBlocks,
 	InspectorControls,
@@ -49,10 +55,12 @@ function Navigation( {
 	hasExistingNavItems,
 	hasResolvedPages,
 	isRequestingPages,
+	isRequestingMenuItems,
 	hasResolvedMenus,
 	isRequestingMenus,
 	pages,
 	menus,
+	getMenuItems,
 	setAttributes,
 	setFontSize,
 	updateNavItemBlocks,
@@ -63,7 +71,7 @@ function Navigation( {
 	//
 
 	const ref = useRef();
-	const [ selectedMenu, setSelectedMenu ] = useState( '' );
+	const [ selectedMenu, setSelectedMenu ] = useState( null );
 	const { selectBlock } = useDispatch( 'core/block-editor' );
 	const { TextColor, BackgroundColor, ColorPanel } = __experimentalUseColors(
 		[
@@ -109,6 +117,25 @@ function Navigation( {
 		);
 	}, [ pages ] );
 
+	const menuItems = getMenuItems( selectedMenu );
+
+	const createFromMenu = useMemo( () => {
+		if ( ! menuItems ) {
+			return null;
+		}
+		return menuItems.map( ( { title, type, link: url, id } ) =>
+			createBlock( 'core/navigation-link', {
+				type,
+				id,
+				url,
+				label: ! title.rendered
+					? __( '(no title)' )
+					: escape( title.rendered ),
+				opensInNewTab: false,
+			} )
+		);
+	}, [ menuItems ] );
+
 	//
 	// HANDLERS
 	//
@@ -132,9 +159,24 @@ function Navigation( {
 		selectBlock( clientId );
 	}
 
+	function handleCreateFromMenu() {
+		updateNavItemBlocks( createFromMenu );
+		selectBlock( clientId );
+	}
+
 	const hasPages = hasResolvedPages && pages && pages.length;
 	const hasMenus = hasResolvedMenus && menus && menus.length;
 
+	useEffect( () => {
+		if ( !! menus ) {
+			setSelectedMenu( menus[ 0 ].id );
+		}
+	}, [ menus ] );
+
+	const blockClassNames = classnames( className, {
+		[ `items-justified-${ attributes.itemsJustification }` ]: attributes.itemsJustification,
+		[ fontSize.class ]: fontSize.class,
+	} );
 	const blockInlineStyles = {
 		fontSize: fontSize.size ? fontSize.size + 'px' : undefined,
 	};
@@ -166,7 +208,7 @@ function Navigation( {
 							{ __( 'Create from all top-level pages' ) }
 						</Button>
 
-						{ hasMenus && (
+						{ !! hasMenus && (
 							<>
 								<SelectControl
 									label={ __( 'Create from existing Menu' ) }
@@ -177,14 +219,14 @@ function Navigation( {
 									options={ menus.map( ( mappedMenu ) => {
 										return {
 											label: mappedMenu.name,
-											value: mappedMenu.slug,
+											value: mappedMenu.id,
 										};
 									} ) }
 								/>
 								<Button
 									isSecondary
 									className="wp-block-navigation-placeholder__button"
-									onClick={ () => {} }
+									onClick={ handleCreateFromMenu }
 								>
 									{ __( 'Create from Menu' ) }
 								</Button>
@@ -287,7 +329,9 @@ function Navigation( {
 						style={ blockInlineStyles }
 					>
 						{ ! hasExistingNavItems &&
-							( isRequestingPages || isRequestingMenus ) && (
+							( isRequestingPages ||
+								isRequestingMenus ||
+								isRequestingMenuItems() ) && (
 								<>
 									<Spinner /> { __( 'Loading Navigation…' ) }{ ' ' }
 								</>
@@ -335,6 +379,12 @@ export default compose( [
 		];
 		const menusSelect = [ 'core', 'getEntityRecords', [ 'root', 'menu' ] ];
 
+		const menuItemsSelect = [
+			'core',
+			'getEntityRecords',
+			[ 'root', 'menu-Item' ],
+		];
+
 		return {
 			hasExistingNavItems: !! innerBlocks.length,
 			pages: select( 'core' ).getEntityRecords(
@@ -343,23 +393,40 @@ export default compose( [
 				filterDefaultPages
 			),
 			menus: select( 'core' ).getEntityRecords( 'root', 'menu' ),
+			getMenuItems: ( menuId ) => {
+				if ( ! menuId ) {
+					return false;
+				}
+				return select( 'core' ).getEntityRecords( 'root', 'menu-item', {
+					menus: menuId,
+				} );
+			},
 			isRequestingPages: select( 'core/data' ).isResolving(
 				...pagesSelect
 			),
 			isRequestingMenus: select( 'core/data' ).isResolving(
 				...menusSelect
 			),
+			isRequestingMenuItems: () => {
+				select( 'core/data' ).isResolving( ...menuItemsSelect );
+			},
 			hasResolvedPages: select( 'core/data' ).hasFinishedResolution(
 				...pagesSelect
 			),
 			hasResolvedMenus: select( 'core/data' ).hasFinishedResolution(
 				...menusSelect
 			),
+			hasResolvedMenuItems: () => {
+				select( 'core/data' ).hasFinishedResolution(
+					...menuItemsSelect
+				);
+			},
 		};
 	} ),
 	withDispatch( ( dispatch, { clientId } ) => {
 		return {
 			updateNavItemBlocks( blocks ) {
+				if ( ! blocks || blocks.length === 0 ) return false;
 				dispatch( 'core/block-editor' ).replaceInnerBlocks(
 					clientId,
 					blocks
