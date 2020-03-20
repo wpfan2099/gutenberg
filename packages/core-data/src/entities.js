@@ -63,7 +63,6 @@ export const defaultEntities = [
 		baseURL: '/wp/v2/users',
 		plural: 'users',
 	},
-	{ name: 'user', kind: 'root', baseURL: '/wp/v2/users', plural: 'users' },
 	{
 		name: 'menu',
 		kind: 'root',
