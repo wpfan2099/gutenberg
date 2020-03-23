@@ -117,7 +117,7 @@ function render_block_core_navigation_link( $content, $block ) {
 	// End anchor tag content.
 
 	if ( $has_submenu ) {
-		$html .= core_block_navigation_build_html( $attributes, $block, $colors, $font_sizes );
+		$html .= implode( array_map( 'render_block', $block['innerBlocks'] ) );
 	}
 
 	$html .= '</li>';

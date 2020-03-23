@@ -147,37 +147,15 @@ function render_block_core_navigation( $content, $block ) {
 		? sprintf( ' style="%s"', esc_attr( $colors['inline_styles'] ) . esc_attr( $font_sizes['inline_styles'] ) )
 		: '';
 
+	// Render inner blocks.
+	$inner_blocks_html = implode( array_map( 'render_block', $block['innerBlocks'] ) );
+
 	return sprintf(
-		'<nav %1$s %2$s>%3$s</nav>',
+		'<nav %1$s %2$s><ul class="wp-block-navigation__container">%3$s</ul></nav>',
 		$class_attribute,
 		$style_attribute,
-		block_core_navigation_build_html( $attributes, $block, $colors, $font_sizes, true )
+		$inner_blocks_html
 	);
-}
-
-/**
- * Walks the inner block structure and returns an HTML list for it.
- *
- * @param array $attributes    The Navigation block attributes.
- * @param array $block         The NavigationItem block.
- * @param array $colors        Contains inline styles and CSS classes to apply to navigation item.
- * @param array $font_sizes    Contains inline styles and CSS classes to apply to navigation item.
- *
- * @return string Returns  an HTML list from innerBlocks.
- */
-function block_core_navigation_build_html( $attributes, $block, $colors, $font_sizes ) {
-	$html            = '';
-	$classes         = array_merge(
-		$colors['css_classes'],
-		$font_sizes['css_classes']
-	);
-	$classes[]       = 'wp-block-navigation-link';
-	$style_attribute = ( $colors['inline_styles'] || $font_sizes['inline_styles'] )
-		? sprintf( ' style="%s"', esc_attr( $colors['inline_styles'] ) . esc_attr( $font_sizes['inline_styles'] ) )
-		: '';
-
-	// TODO - render inner blocks to $html variable.
-	return '<ul class="wp-block-navigation__container">' . $html . '</ul>';
 }
 
 /**
