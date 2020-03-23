@@ -127,7 +127,6 @@ function render_block_core_navigation( $content, $block ) {
 
 	unset( $attributes['rgbTextColor'], $attributes['rgbBackgroundColor'] );
 
-	// TODO - remove in favour of natural behaviour of inner blocks rendering?
 	if ( empty( $block['innerBlocks'] ) ) {
 		return '';
 	}
