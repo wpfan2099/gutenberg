@@ -117,7 +117,13 @@ function render_block_core_navigation_link( $content, $block ) {
 	// End anchor tag content.
 
 	if ( $has_submenu ) {
-		$html .= implode( array_map( 'render_block', $block['innerBlocks'] ) );
+		$inner_blocks_html = implode( array_map( 'render_block', $block['innerBlocks'] ) );
+
+		// TODO - classname is wrong!
+		$html .= sprintf(
+			'<ul class="wp-block-navigation__container">%s</ul>',
+			$inner_blocks_html
+		);
 	}
 
 	$html .= '</li>';
