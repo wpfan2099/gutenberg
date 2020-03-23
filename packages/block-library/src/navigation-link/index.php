@@ -118,7 +118,33 @@ function render_block_core_navigation_link( $content, $block ) {
 function register_block_core_navigation() {
 	register_block_type(
 		'core/navigation-link',
-		// TODO migrate nav link properties from block.json
+		array(
+			'attributes' => array(
+				'label'         => array(
+					'type' => 'string',
+				),
+				'nofollow'      => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+				'type'          => array(
+					'type' => 'string',
+				),
+				'description'   => array(
+					'type' => 'string',
+				),
+				'id'            => array(
+					'type' => 'number',
+				),
+				'opensInNewTab' => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+				'url'           => array(
+					'type' => 'string',
+				),
+			),
+		),
 	);
 }
 add_action( 'init', 'register_block_core_navigation_link' );
