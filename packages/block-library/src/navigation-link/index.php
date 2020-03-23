@@ -27,7 +27,9 @@ function render_block_core_navigation_link( $content, $block ) {
 		return $content;
 	}
 
-	// TODO filter out blocks with empty labels as per block_core_navigation_empty_navigation_links_recursive
+	if ( empty( $block['attrs']['label'] ) ) {
+		return '';
+	}
 
 	// TODO augment prev params - $attributes, $block, $colors, $font_sizes
 

@@ -86,31 +86,6 @@ function block_core_navigation_build_css_font_sizes( $attributes ) {
 }
 
 /**
- * Recursively filters out links with no labels to build a clean navigation block structure.
- *
- * @param array $blocks Navigation link inner blocks from the Navigation block.
- * @return array Blocks that had valid labels
- */
-function block_core_navigation_empty_navigation_links_recursive( $blocks ) {
-	$blocks = array_filter(
-		$blocks,
-		function( $block ) {
-			return ! empty( $block['attrs']['label'] );
-		}
-	);
-
-	if ( ! empty( $blocks ) ) {
-		foreach ( $blocks as $key => $block ) {
-			if ( ! empty( $block['innerBlocks'] ) ) {
-				$blocks[ $key ]['innerBlocks'] = block_core_navigation_empty_navigation_links_recursive( $block['innerBlocks'] );
-			}
-		}
-	}
-
-	return $blocks;
-}
-
-/**
  * Returns the top-level submenu SVG chevron icon.
  *
  * @return string
