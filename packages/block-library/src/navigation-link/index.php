@@ -32,7 +32,19 @@ function render_block_core_navigation_link( $content, $block ) {
 		return '';
 	}
 
-	// TODO augment prev params - $attributes, $block, $colors, $font_sizes
+	// TODO Font sizes and colors were previously specified on the Navigation Link
+	// $classes         = array_merge(
+	// 	$colors['css_classes'],
+	// 	$font_sizes['css_classes']
+	// );
+	// $classes[]       = 'wp-block-navigation-link';
+	// $style_attribute = ( $colors['inline_styles'] || $font_sizes['inline_styles'] )
+	// 	? sprintf( ' style="%s"', esc_attr( $colors['inline_styles'] ) . esc_attr( $font_sizes['inline_styles'] ) )
+	// 	: '';
+
+	// TODO $classes and $style_attribute below are temporary until font sizes and colors are working again.
+	$classes         = array( 'wp-block-navigation-link' );
+	$style_attribute = '';
 
 	$css_classes = trim( implode( ' ', $classes ) );
 	$has_submenu = count( (array) $block['innerBlocks'] ) > 0;
@@ -87,18 +99,19 @@ function render_block_core_navigation_link( $content, $block ) {
 
 	$html .= '</span>';
 
+	// TODO - showSubmenuIcon relies on nav block attribute. Refactor.
 	// Append submenu icon to top-level item.
 	// it shows the icon as default, when 'showSubmenuIcon' is not set,
 	// or when it's set and also not False.
-	if (
-		(
-			isset( $attributes['showSubmenuIcon'] ) && false !== $attributes['showSubmenuIcon'] ||
-			! isset( $attributes['showSubmenuIcon'] )
-		) &&
-		$has_submenu
-	) {
-		$html .= '<span class="wp-block-navigation-link__submenu-icon">' . block_core_navigation_link_render_submenu_icon() . '</span>';
-	}
+	// if (
+	// 	(
+	// 		isset( $attributes['showSubmenuIcon'] ) && false !== $attributes['showSubmenuIcon'] ||
+	// 		! isset( $attributes['showSubmenuIcon'] )
+	// 	) &&
+	// 	$has_submenu
+	// ) {
+	// 	$html .= '<span class="wp-block-navigation-link__submenu-icon">' . block_core_navigation_link_render_submenu_icon() . '</span>';
+	// }
 
 	$html .= '</a>';
 	// End anchor tag content.
