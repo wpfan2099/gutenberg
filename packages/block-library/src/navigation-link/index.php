@@ -1,6 +1,6 @@
 <?php
 /**
- * Server-side rendering of the `core/navigation` block.
+ * Server-side rendering of the `core/navigation-link` block.
  *
  * @package gutenberg
  */
@@ -10,15 +10,15 @@
  *
  * @return string
  */
-function block_core_navigation_render_submenu_icon() {
+function block_core_navigation_link_render_submenu_icon() {
 	return '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" transform="rotate(90)"><path d="M8 5v14l11-7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>';
 }
 
 /**
- * Renders the `core/navigation-link` block on server.
+ * Renders the `core/navigation-link` block.
  *
  * @param array $content The saved content.
- * @param array $block The parsed block.
+ * @param array $block   The parsed block.
  *
  * @return string Returns the post content with the legacy widget added.
  */
@@ -27,6 +27,7 @@ function render_block_core_navigation_link( $content, $block ) {
 		return $content;
 	}
 
+	// Don't render the block's subtree if it has no label.
 	if ( empty( $block['attrs']['label'] ) ) {
 		return '';
 	}
@@ -96,7 +97,7 @@ function render_block_core_navigation_link( $content, $block ) {
 		) &&
 		$has_submenu
 	) {
-		$html .= '<span class="wp-block-navigation-link__submenu-icon">' . block_core_navigation_render_submenu_icon() . '</span>';
+		$html .= '<span class="wp-block-navigation-link__submenu-icon">' . block_core_navigation_link_render_submenu_icon() . '</span>';
 	}
 
 	$html .= '</a>';
@@ -117,7 +118,7 @@ function render_block_core_navigation_link( $content, $block ) {
  * @uses render_block_core_navigation()
  * @throws WP_Error An WP_Error exception parsing the block definition.
  */
-function register_block_core_navigation() {
+function register_block_core_navigation_link() {
 	register_block_type(
 		'core/navigation-link',
 		array(
