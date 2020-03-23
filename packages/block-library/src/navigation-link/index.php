@@ -56,7 +56,7 @@ function render_block_core_navigation_link( $content, $block ) {
 		$css_classes .= ' ' . $class_name;
 	};
 
-	$html .= '<li class="' . esc_attr( $css_classes . ( $has_submenu ? ' has-child' : '' ) ) .
+	$html = '<li class="' . esc_attr( $css_classes . ( $has_submenu ? ' has-child' : '' ) ) .
 		( $is_active ? ' current-menu-item' : '' ) . '"' . $style_attribute . '>' .
 		'<a class="wp-block-navigation-link__content"';
 
@@ -128,7 +128,7 @@ function render_block_core_navigation_link( $content, $block ) {
 /**
  * Register the navigation block.
  *
- * @uses render_block_core_navigation()
+ * @uses render_block_core_navigation_link()
  * @throws WP_Error An WP_Error exception parsing the block definition.
  */
 function register_block_core_navigation_link() {
