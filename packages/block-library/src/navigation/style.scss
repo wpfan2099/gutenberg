@@ -156,6 +156,10 @@ $navigation-sub-menu-width: $grid-unit-10 * 25;
 			align-items: center;
 			width: max-content;
 			padding: $grid-unit-10 * 0.75 $grid-unit-10 * 2;
+
+			// Inherit colors from the parent nav block. Overrides some
+			// default styling on `<a>` elements that sets the color to blue.
+			color: inherit;
 		}
 
 		// Submenu links only
@@ -205,13 +209,17 @@ $navigation-sub-menu-width: $grid-unit-10 * 25;
 .wp-block-navigation {
 
 	// Default / Light styles
-	.wp-block-navigation-link,
-	&.is-style-light .wp-block-navigation-link {
+	&:not(.has-text-color) .wp-block-navigation-link,
+	&:not(.has-text-color).is-style-light .wp-block-navigation-link {
 		//  No text color
-		&:not(.has-text-color) > .wp-block-navigation__container {
+		> .wp-block-navigation__container {
 			color: $light-style-sub-menu-text-color;
 		}
+	}
 
+	// Default / Light styles
+	&:not(.has-background) .wp-block-navigation-link,
+	&:not(.has-background).is-style-light .wp-block-navigation-link {
 		// No background color
 		&:not(.has-background) > .wp-block-navigation__container {
 			background-color: $light-style-sub-menu-background-color;
@@ -219,14 +227,16 @@ $navigation-sub-menu-width: $grid-unit-10 * 25;
 	}
 
 	// Dark styles.
-	&.is-style-dark .wp-block-navigation-link {
+	&:not(.has-text-color).is-style-dark .wp-block-navigation-link {
 		// No text color
-		&:not(.has-text-color) > .wp-block-navigation__container {
+		> .wp-block-navigation__container {
 			color: $dark-style-sub-menu-text-color;
 		}
+	}
 
+	&:not(.has-background).is-style-dark .wp-block-navigation-link {
 		// No background color
-		&:not(.has-background) > .wp-block-navigation__container {
+		> .wp-block-navigation__container {
 			background-color: $dark-style-sub-menu-background-color;
 		}
 	}
