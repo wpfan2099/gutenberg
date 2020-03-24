@@ -108,7 +108,11 @@ function render_block_core_navigation( $content, $block ) {
 		return $content;
 	}
 
-	$attributes = $block['attrs'];
+	// Apply default attributes. This is currently needed because the nav block overrides
+	// block rendering using the render_block filter. It does this to gain access to
+	// innerBlocks, but at the same time this bypasses prepare_attributes_for_render.
+	$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
+	$attributes = $block_type->prepare_attributes_for_render( $block[ 'attrs' ] );
 
 	/**
 	 * Deprecated:

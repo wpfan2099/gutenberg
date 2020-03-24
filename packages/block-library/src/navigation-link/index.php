@@ -27,8 +27,14 @@ function render_block_core_navigation_link( $content, $block ) {
 		return $content;
 	}
 
+	// Apply default attributes. This is currently needed because the nav link block overrides
+	// block rendering using the render_block filter. It does this to gain access to
+	// innerBlocks, but at the same time this bypasses prepare_attributes_for_render.
+	$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
+	$attributes = $block_type->prepare_attributes_for_render( $block[ 'attrs' ] );
+
 	// Don't render the block's subtree if it has no label.
-	if ( empty( $block['attrs']['label'] ) ) {
+	if ( empty( $attributes['label'] ) ) {
 		return '';
 	}
 
@@ -48,9 +54,9 @@ function render_block_core_navigation_link( $content, $block ) {
 
 	$css_classes = trim( implode( ' ', $classes ) );
 	$has_submenu = count( (array) $block['innerBlocks'] ) > 0;
-	$is_active   = ! empty( $block['attrs']['id'] ) && ( get_the_ID() === $block['attrs']['id'] );
+	$is_active   = ! empty( $attributes['id'] ) && ( get_the_ID() === $attributes['id'] );
 
-	$class_name = ! empty( $block['attrs']['className'] ) ? implode( ' ', (array) $block['attrs']['className'] ) : false;
+	$class_name = ! empty( $attributes['className'] ) ? implode( ' ', (array) $attributes['className'] ) : false;
 
 	if ( false !== $class_name ) {
 		$css_classes .= ' ' . $class_name;
@@ -61,11 +67,11 @@ function render_block_core_navigation_link( $content, $block ) {
 		'<a class="wp-block-navigation-link__content"';
 
 	// Start appending HTML attributes to anchor tag.
-	if ( isset( $block['attrs']['url'] ) ) {
-		$html .= ' href="' . esc_url( $block['attrs']['url'] ) . '"';
+	if ( isset( $attributes['url'] ) ) {
+		$html .= ' href="' . esc_url( $attributes['url'] ) . '"';
 	}
 
-	if ( isset( $block['attrs']['opensInNewTab'] ) && true === $block['attrs']['opensInNewTab'] ) {
+	if ( isset( $attributes['opensInNewTab'] ) && true === $attributes['opensInNewTab'] ) {
 		$html .= ' target="_blank"  ';
 	}
 	// End appending HTML attributes to anchor tag.
@@ -75,9 +81,9 @@ function render_block_core_navigation_link( $content, $block ) {
 		// Wrap title with span to isolate it from submenu icon.
 		'<span class="wp-block-navigation-link__label">';
 
-	if ( isset( $block['attrs']['label'] ) ) {
+	if ( isset( $attributes['label'] ) ) {
 		$html .= wp_kses(
-			$block['attrs']['label'],
+			$attributes['label'],
 			array(
 				'code'   => array(),
 				'em'     => array(),
