@@ -46,7 +46,6 @@ function NavigationLinkEdit( {
 	isSelected,
 	isParentOfSelectedBlock,
 	setAttributes,
-	showSubmenuIcon,
 	insertLinkBlock,
 	textColor,
 	backgroundColor,
@@ -228,7 +227,7 @@ function NavigationLinkEdit( {
 							'core/strikethrough',
 						] }
 					/>
-					{ showSubmenuIcon && (
+					{ hasDescendants && (
 						<span className="wp-block-navigation-link__submenu-icon">
 							<ItemSubmenuIcon />
 						</span>
@@ -347,8 +346,6 @@ export default compose( [
 		const colors = get( getSettings(), 'colors', [] );
 		const hasDescendants = !! getClientIdsOfDescendants( [ clientId ] )
 			.length;
-		const showSubmenuIcon =
-			!! navigationBlockAttributes.showSubmenuIcon && hasDescendants;
 		const isParentOfSelectedBlock = hasSelectedInnerBlock( clientId, true );
 
 		const userCanCreatePages = select( 'core' ).canUser(
@@ -359,7 +356,6 @@ export default compose( [
 		return {
 			isParentOfSelectedBlock,
 			hasDescendants,
-			showSubmenuIcon,
 			textColor: navigationBlockAttributes.textColor,
 			backgroundColor: navigationBlockAttributes.backgroundColor,
 			userCanCreatePages,

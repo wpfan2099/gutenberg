@@ -176,6 +176,7 @@ $navigation-sub-menu-width: $grid-unit-10 * 25;
 		}
 
 		.wp-block-navigation-link__submenu-icon {
+			display: none;
 			position: absolute;
 			right: $grid-unit-10 * 2;
 
@@ -192,6 +193,11 @@ $navigation-sub-menu-width: $grid-unit-10 * 25;
 		&.has-text-color .wp-block-navigation-link__content {
 			color: inherit;
 		}
+	}
+
+	// TODO reduce specificity by unnesting nav link styles
+	&.has-submenu-icon .wp-block-navigation-link .wp-block-navigation-link__submenu-icon {
+		display: block;
 	}
 }
 
@@ -244,7 +250,6 @@ $navigation-sub-menu-width: $grid-unit-10 * 25;
 */
 
 .wp-block-navigation {
-
 	& > ul {
 		& > li {
 			& > a {

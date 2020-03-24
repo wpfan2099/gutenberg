@@ -150,7 +150,9 @@ function Navigation( {
 		[ `items-justified-${ attributes.itemsJustification }` ]: attributes.itemsJustification,
 		[ fontSize.class ]: fontSize.class,
 		'is-vertical': attributes.orientation === 'vertical',
+		'has-submenu-icon': attributes.showSubmenuIcon,
 	} );
+
 	const blockInlineStyles = {
 		fontSize: fontSize.size ? fontSize.size + 'px' : undefined,
 	};

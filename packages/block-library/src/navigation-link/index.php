@@ -99,19 +99,10 @@ function render_block_core_navigation_link( $content, $block ) {
 
 	$html .= '</span>';
 
-	// TODO - showSubmenuIcon relies on nav block attribute. Refactor.
-	// Append submenu icon to top-level item.
-	// it shows the icon as default, when 'showSubmenuIcon' is not set,
-	// or when it's set and also not False.
-	// if (
-	// 	(
-	// 		isset( $attributes['showSubmenuIcon'] ) && false !== $attributes['showSubmenuIcon'] ||
-	// 		! isset( $attributes['showSubmenuIcon'] )
-	// 	) &&
-	// 	$has_submenu
-	// ) {
-	// 	$html .= '<span class="wp-block-navigation-link__submenu-icon">' . block_core_navigation_link_render_submenu_icon() . '</span>';
-	// }
+	if ( $has_submenu ) {
+		// The submenu icon can be hidden by a CSS rule on the Navigation Block.
+		$html .= '<span class="wp-block-navigation-link__submenu-icon">' . block_core_navigation_link_render_submenu_icon() . '</span>';
+	}
 
 	$html .= '</a>';
 	// End anchor tag content.
