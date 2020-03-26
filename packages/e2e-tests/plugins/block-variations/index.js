@@ -2,21 +2,18 @@
 	var el = wp.element.createElement;
 	var registerBlockVariation = wp.blocks.registerBlockVariation;
 	var __ = wp.i18n.__;
-	var Circle = wp.primitives.Circle;
+	var Path = wp.primitives.Path;
 	var SVG = wp.primitives.SVG;
 
-	var redCircle = el( Circle, {
-		cx: 24,
-		cy: 24,
-		r: 15,
-		fill: 'red',
-		stroke: 'blue',
-		strokeWidth: '10',
+	var columnsPath = el( Path, {
+		fillRule: 'evenodd',
+		d:
+			'M41 14a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h30a2 2 0 0 0 2-2V14zM28.5 34h-9V14h9v20zm2 0V14H39v20h-8.5zm-13 0H9V14h8.5v20z',
 	} );
-	var redCircleIcon = el(
+	var columnsIcon = el(
 		SVG,
 		{ width: 48, height: 48, viewBox: '0 0 48 48' },
-		redCircle
+		columnsPath
 	);
 
 	registerBlockVariation( 'core/quote', {
@@ -55,15 +52,15 @@
 	} );
 
 	registerBlockVariation( 'core/columns', {
-		name: 'four-columns',
-		title: 'Four columns',
+		name: 'three-columns',
+		title: '40 / 20 / 40',
+		description: 'Three columns; narrow center column',
 		innerBlocks: [
 			[ 'core/column' ],
-			[ 'core/column' ],
-			[ 'core/column' ],
+			[ 'core/column', { width: 20 } ],
 			[ 'core/column' ],
 		],
-		icon: redCircleIcon,
+		icon: columnsIcon,
 		scope: [ 'block' ],
 	} );
 } )();
