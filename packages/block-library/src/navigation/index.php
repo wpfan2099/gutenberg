@@ -112,7 +112,7 @@ function render_block_core_navigation( $content, $block ) {
 	// block rendering using the render_block filter. It does this to gain access to
 	// innerBlocks, but at the same time this bypasses prepare_attributes_for_render.
 	$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
-	$attributes = $block_type->prepare_attributes_for_render( $block[ 'attrs' ] );
+	$attributes = $block_type->prepare_attributes_for_render( $block['attrs'] );
 
 	/**
 	 * Deprecated:
@@ -144,7 +144,7 @@ function render_block_core_navigation( $content, $block ) {
 		isset( $attributes['className'] ) ? array( $attributes['className'] ) : array(),
 		isset( $attributes['itemsJustification'] ) ? array( 'items-justified-' . $attributes['itemsJustification'] ) : array(),
 		isset( $attributes['align'] ) ? array( 'align' . $attributes['align'] ) : array(),
-		isset( $attributes['showSubmenuIcon'] ) && $attributes['showSubmenuIcon'] ? array( 'has-submenu-icon' ) : array(),
+		isset( $attributes['showSubmenuIcon'] ) && $attributes['showSubmenuIcon'] ? array( 'has-submenu-icon' ) : array()
 	);
 	$class_attribute = sprintf( ' class="%s"', esc_attr( implode( ' ', $classes ) ) );
 	$style_attribute = ( $colors['inline_styles'] || $font_sizes['inline_styles'] )

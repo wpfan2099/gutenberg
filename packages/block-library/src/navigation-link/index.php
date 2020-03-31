@@ -31,24 +31,15 @@ function render_block_core_navigation_link( $content, $block ) {
 	// block rendering using the render_block filter. It does this to gain access to
 	// innerBlocks, but at the same time this bypasses prepare_attributes_for_render.
 	$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
-	$attributes = $block_type->prepare_attributes_for_render( $block[ 'attrs' ] );
+	$attributes = $block_type->prepare_attributes_for_render( $block['attrs'] );
 
 	// Don't render the block's subtree if it has no label.
 	if ( empty( $attributes['label'] ) ) {
 		return '';
 	}
 
-	// TODO Font sizes and colors were previously specified on the Navigation Link
-	// $classes         = array_merge(
-	// 	$colors['css_classes'],
-	// 	$font_sizes['css_classes']
-	// );
-	// $classes[]       = 'wp-block-navigation-link';
-	// $style_attribute = ( $colors['inline_styles'] || $font_sizes['inline_styles'] )
-	// 	? sprintf( ' style="%s"', esc_attr( $colors['inline_styles'] ) . esc_attr( $font_sizes['inline_styles'] ) )
-	// 	: '';
-
-	// TODO $classes and $style_attribute below are temporary until font sizes and colors are working again.
+	// TODO $classes and $style_attribute below are temporary. Ideally the Navigation Block would
+	// have some way of passing its attributes to the Navigation Link so that these continue to work.
 	$classes         = array( 'wp-block-navigation-link' );
 	$style_attribute = '';
 
@@ -163,7 +154,7 @@ function register_block_core_navigation_link() {
 					'type' => 'string',
 				),
 			),
-		),
+		)
 	);
 }
 add_action( 'init', 'register_block_core_navigation_link' );
