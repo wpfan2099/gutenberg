@@ -120,10 +120,8 @@ function render_block_core_navigation_link( $content, $block ) {
 }
 
 /**
- * Register the navigation block.
+ * Register the navigation link block.
  *
- * @uses render_block_core_navigation_link()
- * @throws WP_Error An WP_Error exception parsing the block definition.
  */
 function register_block_core_navigation_link() {
 	register_block_type(
