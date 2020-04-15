@@ -31,11 +31,12 @@ function ActionItemSlot( {
 	);
 }
 
-function ActionItem( { name, onClick, ...props } ) {
+function ActionItem( { name, as, onClick, ...props } ) {
 	return (
 		<Fill name={ name }>
 			{ ( fillProps ) => {
-				const { onClick: fpOnClick, as: Item } = fillProps;
+				const { onClick: fpOnClick, as: fpAs } = fillProps;
+				const Item = as || fpAs || Button;
 				return (
 					<Item
 						onClick={

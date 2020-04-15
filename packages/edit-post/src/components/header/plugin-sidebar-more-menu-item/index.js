@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { ComplementaryArea } from '@wordpress/interface';
+import { ComplementaryAreaMoreMenuItem } from '@wordpress/interface';
 
 /**
  * Renders a menu item in `Plugins` group in `More Menu` drop down,
@@ -55,6 +55,6 @@ import { ComplementaryArea } from '@wordpress/interface';
 
 export default function PluginSidebarMoreMenuItem( props ) {
 	return (
-		<ComplementaryArea.MoreMenuItem scope="core/edit-post" { ...props } />
+		<ComplementaryAreaMoreMenuItem scope="core/edit-post" { ...props } />
 	);
 }

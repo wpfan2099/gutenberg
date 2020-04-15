@@ -2,7 +2,10 @@
  * WordPress dependencies
  */
 import { createSlotFill } from '@wordpress/components';
-import { ComplementaryArea } from '@wordpress/interface';
+import {
+	ComplementaryArea,
+	ComplementaryAreaMoreMenuItem,
+} from '@wordpress/interface';
 import { __ } from '@wordpress/i18n';
 import { cog, pencil } from '@wordpress/icons';
 
@@ -15,19 +18,19 @@ const DefaultSidebar = ( { areaId, title, icon, children } ) => {
 		<>
 			<ComplementaryArea
 				scope="core/edit-site"
-				complementaryAreaIdentifier={ areaId }
+				identifier={ areaId }
 				title={ title }
 				icon={ icon }
 			>
 				{ children }
 			</ComplementaryArea>
-			<ComplementaryArea.MoreMenuItem
+			<ComplementaryAreaMoreMenuItem
 				scope="core/edit-site"
-				complementaryAreaIdentifier={ areaId }
+				identifier={ areaId }
 				icon={ icon }
 			>
 				{ title }
-			</ComplementaryArea.MoreMenuItem>
+			</ComplementaryAreaMoreMenuItem>
 		</>
 	);
 };

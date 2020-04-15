@@ -11,7 +11,7 @@ import { close } from '@wordpress/icons';
 /**
  * Internal dependencies
  */
-import { ComplementaryAreaToggle } from '../complementary-area';
+import ComplementaryAreaToggle from '../complementary-area-toggle';
 
 const ComplementaryAreaHeader = ( {
 	smallScreenTitle,

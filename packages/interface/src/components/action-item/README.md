@@ -49,3 +49,10 @@ Callback function executed when a click on the item happens.
 - Type: `Function`
 - Required: no
 
+### as
+
+The component that is going to be used to render a the action item. If the component is not passed it defaults to the component specified on the slot.
+
+- Type: `Array`
+- Required: no
+
