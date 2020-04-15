@@ -60,19 +60,27 @@ export default function InsertionPoint( {
 	const [ inserterElement, setInserterElement ] = useState( null );
 	const [ inserterClientId, setInserterClientId ] = useState( null );
 	const ref = useRef();
-	const { multiSelectedBlockClientIds, isInserterVisible } = useSelect(
-		( select ) => {
-			const {
-				getMultiSelectedBlockClientIds,
-				isBlockInsertionPointVisible,
-			} = select( 'core/block-editor' );
+	const {
+		multiSelectedBlockClientIds,
+		isInserterVisible,
+		selectedClientId,
+	} = useSelect( ( select ) => {
+		const {
+			getMultiSelectedBlockClientIds,
+			isBlockInsertionPointVisible,
+			getBlockInsertionPoint,
+			getBlockOrder,
+		} = select( 'core/block-editor' );
 
-			return {
-				multiSelectedBlockClientIds: getMultiSelectedBlockClientIds(),
-				isInserterVisible: isBlockInsertionPointVisible(),
-			};
-		}
-	);
+		const insertionPoint = getBlockInsertionPoint();
+		const order = getBlockOrder( insertionPoint.rootClientId );
+
+		return {
+			multiSelectedBlockClientIds: getMultiSelectedBlockClientIds(),
+			isInserterVisible: isBlockInsertionPointVisible(),
+			selectedClientId: order[ insertionPoint.index ],
+		};
+	} );
 
 	function onMouseMove( event ) {
 		if (
@@ -146,6 +154,8 @@ export default function InsertionPoint( {
 		? multiSelectedBlockClientIds.includes( inserterClientId )
 		: inserterClientId === selectedBlockClientId;
 	const isVisible = isInserterShown || isInserterForced || isInserterVisible;
+	const selectedElement =
+		inserterElement || getBlockDOMNode( selectedClientId );
 
 	return (
 		<>
@@ -153,7 +163,7 @@ export default function InsertionPoint( {
 				<Popover
 					noArrow
 					animate={ false }
-					anchorRef={ inserterElement }
+					anchorRef={ selectedElement }
 					position="top right left"
 					focusOnMount={ false }
 					className="block-editor-block-list__insertion-point-popover"
@@ -162,9 +172,11 @@ export default function InsertionPoint( {
 				>
 					<div
 						className="block-editor-block-list__insertion-point"
-						style={ { width: inserterElement.offsetWidth } }
+						style={ { width: selectedElement.offsetWidth } }
 					>
-						<Indicator clientId={ inserterClientId } />
+						<Indicator
+							clientId={ inserterClientId || selectedClientId }
+						/>
 						{ /* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */ }
 						<div
 							ref={ ref }
