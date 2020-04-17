@@ -194,14 +194,6 @@ function Navigation( {
 		}
 	}, [ menus ] );
 
-	const blockClassNames = classnames( className, {
-		[ `items-justified-${ attributes.itemsJustification }` ]: attributes.itemsJustification,
-		[ fontSize.class ]: fontSize.class,
-	} );
-	const blockInlineStyles = {
-		fontSize: fontSize.size ? fontSize.size + 'px' : undefined,
-	};
-
 	// If we don't have existing items or the User hasn't
 	// indicated they want to automatically add top level Pages
 	// then show the Placeholder
@@ -266,6 +258,10 @@ function Navigation( {
 			</Block.div>
 		);
 	}
+
+	const blockInlineStyles = {
+		fontSize: fontSize.size ? fontSize.size + 'px' : undefined,
+	};
 
 	const blockClassNames = classnames( className, {
 		[ `items-justified-${ attributes.itemsJustification }` ]: attributes.itemsJustification,
