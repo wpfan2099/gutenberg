@@ -90,7 +90,10 @@ export default function Header() {
 				/>
 				<SaveButton />
 				<PinnedItems.Slot scope="core/edit-site" />
-				<MoreMenu />
+				<MoreMenu
+					templateIds={ settings.templateIds }
+					templatePartIds={ settings.templatePartIds }
+				/>
 			</div>
 		</div>
 	);

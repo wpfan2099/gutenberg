@@ -8,6 +8,7 @@ import { DropdownMenu, MenuGroup } from '@wordpress/components';
  * Internal dependencies
  */
 import FeatureToggle from '../feature-toggle';
+import ThemeExporter from '../theme-exporter';
 import { moreVertical } from '@wordpress/icons';
 
 const POPOVER_PROPS = {
@@ -18,7 +19,7 @@ const TOGGLE_PROPS = {
 	tooltipPosition: 'bottom',
 };
 
-const MoreMenu = () => (
+const MoreMenu = ( { templateIds, templatePartIds } ) => (
 	<DropdownMenu
 		className="edit-site-more-menu"
 		icon={ moreVertical }
@@ -27,15 +28,25 @@ const MoreMenu = () => (
 		toggleProps={ TOGGLE_PROPS }
 	>
 		{ () => (
-			<MenuGroup label={ _x( 'View', 'noun' ) }>
-				<FeatureToggle
-					feature="fullscreenMode"
-					label={ __( 'Fullscreen mode' ) }
-					info={ __( 'Work without distraction' ) }
-					messageActivated={ __( 'Fullscreen mode activated' ) }
-					messageDeactivated={ __( 'Fullscreen mode deactivated' ) }
-				/>
-			</MenuGroup>
+			<>
+				<MenuGroup label={ _x( 'View', 'noun' ) }>
+					<FeatureToggle
+						feature="fullscreenMode"
+						label={ __( 'Fullscreen mode' ) }
+						info={ __( 'Work without distraction' ) }
+						messageActivated={ __( 'Fullscreen mode activated' ) }
+						messageDeactivated={ __(
+							'Fullscreen mode deactivated'
+						) }
+					/>
+				</MenuGroup>
+				<MenuGroup label={ __( 'More' ) }>
+					<ThemeExporter
+						ids={ templateIds }
+						templatePartIds={ templatePartIds }
+					/>
+				</MenuGroup>
+			</>
 		) }
 	</DropdownMenu>
 );
