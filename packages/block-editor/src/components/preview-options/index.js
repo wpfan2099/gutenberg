@@ -8,7 +8,7 @@ import classnames from 'classnames';
  */
 import { Button, Dropdown, MenuGroup, MenuItem } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { Icon, check, chevronDown } from '@wordpress/icons';
+import { check } from '@wordpress/icons';
 
 export default function PreviewOptions( {
 	children,
@@ -34,7 +34,6 @@ export default function PreviewOptions( {
 					disabled={ ! isEnabled }
 				>
 					{ __( 'Preview' ) }
-					<Icon icon={ chevronDown } />
 				</Button>
 			) }
 			renderContent={ () => (
