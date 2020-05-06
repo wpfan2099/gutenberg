@@ -39,8 +39,6 @@ const BlockComponent = forwardRef(
 			isSelected,
 			isFirstMultiSelected,
 			isLastMultiSelected,
-			isMultiSelecting,
-			isNavigationMode,
 			isPartOfMultiSelection,
 			enableAnimation,
 			index,
@@ -51,16 +49,22 @@ const BlockComponent = forwardRef(
 			blockTitle,
 			wrapperProps,
 		} = useContext( BlockListBlockContext );
-		const { initialPosition } = useSelect(
+		const { initialPosition, shouldFocusFirstElement } = useSelect(
 			( select ) => {
-				if ( ! isSelected ) {
-					return {};
-				}
+				const {
+					getSelectedBlocksInitialCaretPosition,
+					isMultiSelecting: _isMultiSelecting,
+					isNavigationMode: _isNavigationMode,
+				} = select( 'core/block-editor' );
 
 				return {
-					initialPosition: select(
-						'core/block-editor'
-					).getSelectedBlocksInitialCaretPosition(),
+					shouldFocusFirstElement:
+						isSelected &&
+						! _isMultiSelecting() &&
+						! _isNavigationMode(),
+					initialPosition: isSelected
+						? getSelectedBlocksInitialCaretPosition()
+						: undefined,
 				};
 			},
 			[ isSelected ]
@@ -130,10 +134,10 @@ const BlockComponent = forwardRef(
 		};
 
 		useEffect( () => {
-			if ( ! isMultiSelecting && ! isNavigationMode && isSelected ) {
+			if ( shouldFocusFirstElement ) {
 				focusTabbable();
 			}
-		}, [ isSelected, isMultiSelecting, isNavigationMode ] );
+		}, [ shouldFocusFirstElement ] );
 
 		// Block Reordering animation
 		const animationStyle = useMovingAnimation(
