@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 'use strict';
 
-/*
+/**
  * External dependencies
  */
 const { groupBy } = require( 'lodash' );
 const chalk = require( 'chalk' );
 const Octokit = require( '@octokit/rest' );
 
-/*
+/**
  * Internal dependencies
  */
 // @ts-ignore

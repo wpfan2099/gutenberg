@@ -1,4 +1,11 @@
+/**
+ * External dependencies
+ */
 const path = require( 'path' );
+
+/**
+ * Internal dependencies
+ */
 const postCssConfigPlugins = require( '../bin/packages/post-css-config' );
 
 module.exports = ( { config } ) => {

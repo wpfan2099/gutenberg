@@ -4,6 +4,10 @@
 const path = require( 'path' );
 const os = require( 'os' );
 const { v4: uuid } = require( 'uuid' );
+
+/**
+ * Internal dependencies
+ */
 const { runShellScript } = require( './utils' );
 
 function checkout( repositoryUrl ) {
