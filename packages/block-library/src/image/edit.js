@@ -165,7 +165,6 @@ export class ImageEdit extends Component {
 				alt: undefined,
 				id: undefined,
 				title: undefined,
-				caption: undefined,
 			} );
 			return;
 		}
@@ -188,9 +187,9 @@ export class ImageEdit extends Component {
 			}
 		}
 
-		// If a caption text was meanwhile written by the user,
-		// make sure the text is not overwritten by empty captions
-		if ( caption && ! get( mediaAttributes, [ 'caption' ] ) ) {
+		// If a caption text was meanwhile written by the user, make sure the
+		// text is not overwritten by another caption.
+		if ( caption ) {
 			mediaAttributes = omit( mediaAttributes, [ 'caption' ] );
 		}
 
@@ -417,11 +416,35 @@ export class ImageEdit extends Component {
 			/>
 		);
 
+		let captionField;
+
+		if ( ! RichText.isEmpty( caption ) || isSelected ) {
+			captionField = (
+				<RichText
+					tagName="figcaption"
+					placeholder={ __( 'Write caption…' ) }
+					value={ caption }
+					unstableOnFocus={ this.onFocusCaption }
+					onChange={ ( value ) =>
+						setAttributes( { caption: value } )
+					}
+					isSelected={ this.state.captionFocused }
+					inlineToolbar
+					__unstableOnSplitAtEnd={ () =>
+						insertBlocksAfter( createBlock( 'core/paragraph' ) )
+					}
+				/>
+			);
+		}
+
 		if ( ! url ) {
 			return (
 				<>
 					{ controls }
-					<Block.div>{ mediaPlaceholder }</Block.div>
+					<Block.div>
+						{ mediaPlaceholder }
+						{ captionField }
+					</Block.div>
 				</>
 			);
 		}
@@ -663,25 +686,7 @@ export class ImageEdit extends Component {
 							);
 						} }
 					</ImageSize>
-					{ ( ! RichText.isEmpty( caption ) || isSelected ) && (
-						<RichText
-							tagName="figcaption"
-							placeholder={ __( 'Write caption…' ) }
-							value={ caption }
-							unstableOnFocus={ this.onFocusCaption }
-							onChange={ ( value ) =>
-								setAttributes( { caption: value } )
-							}
-							isSelected={ this.state.captionFocused }
-							inlineToolbar
-							__unstableOnSplitAtEnd={ () =>
-								insertBlocksAfter(
-									createBlock( 'core/paragraph' )
-								)
-							}
-						/>
-					) }
-
+					{ captionField }
 					{ mediaPlaceholder }
 				</Block.figure>
 			</>
