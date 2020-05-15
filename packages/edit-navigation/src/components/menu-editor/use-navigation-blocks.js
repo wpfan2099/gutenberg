@@ -17,7 +17,6 @@ function createBlockFromMenuItem( menuItem, innerBlocks = [] ) {
 		{
 			label: menuItem.title.rendered,
 			url: menuItem.url,
-			id: menuItem.id,
 		},
 		innerBlocks
 	);
@@ -129,8 +128,8 @@ export default function useNavigationBlocks( menuId ) {
 			innerBlocks.map( ( block ) => block.clientId )
 		);
 
-		for ( const clientId of deletedClientIds ) {
-			const menuItem = menuItemsRef.current[ clientId ];
+		for ( const deletedClientId of deletedClientIds ) {
+			const menuItem = menuItemsRef.current[ deletedClientId ];
 			deleteMenuItem( menuItem.id );
 		}
 
