@@ -2,7 +2,7 @@
 	"name": "core/buttons",
 	"category": "layout",
 	"attributes": {
-		"blockDirection": {
+		"orientation": {
 			"type": "string",
 			"default": "horizontal"
 		}
