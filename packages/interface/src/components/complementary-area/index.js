@@ -11,6 +11,7 @@ import { useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { withPluginContext } from '@wordpress/plugins';
 import { starEmpty, starFilled } from '@wordpress/icons';
+import { useEffect } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -46,23 +47,32 @@ function ComplementaryArea( {
 	smallScreenTitle,
 	title,
 	toggleShortcut,
+	isActiveByDefault,
 } ) {
-	const { isActive, isPinned } = useSelect(
+	const { activeComplementaryArea, isPinned } = useSelect(
 		( select ) => {
 			const { getActiveComplementaryArea, isItemPinned } = select(
 				'core/interface'
 			);
 			return {
-				isActive: getActiveComplementaryArea( scope ) === identifier,
+				activeComplementaryArea: getActiveComplementaryArea( scope ),
 				isPinned: isItemPinned( scope, identifier ),
 			};
 		},
 		[ identifier, scope ]
 	);
-	const { enableComplementaryArea, disableComplementaryArea } = useDispatch(
-		'core/interface'
-	);
-	const { pinItem, unpinItem } = useDispatch( 'core/interface' );
+	const isActive = activeComplementaryArea === identifier;
+	const {
+		enableComplementaryArea,
+		disableComplementaryArea,
+		pinItem,
+		unpinItem,
+	} = useDispatch( 'core/interface' );
+	useEffect( () => {
+		if ( isActiveByDefault && activeComplementaryArea === undefined ) {
+			enableComplementaryArea( scope, identifier );
+		}
+	}, [ activeComplementaryArea, isActiveByDefault, scope, identifier ] );
 	return (
 		<>
 			{ isPinned && isPinnable && (

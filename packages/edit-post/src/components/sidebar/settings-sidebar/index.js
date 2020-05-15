@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { BlockInspector } from '@wordpress/block-editor';
+import { Platform } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -21,14 +22,19 @@ import PluginSidebarEditPost from '../../sidebar/plugin-sidebar';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
+const SIDEBAR_ACTIVE_BY_DEFAULT = Platform.select( {
+	web: true,
+	native: false,
+} );
+
 const SettingsSidebar = () => {
-	const sidebarName = useSelect(
-		( select ) =>
-			select( 'core/interface' ).getActiveComplementaryArea(
-				'core/edit-post'
-			),
-		[]
-	);
+	const sidebarName = useSelect( ( select ) => {
+		const _sidebarName = select(
+			'core/interface'
+		).getActiveComplementaryArea( 'core/edit-post' );
+		return _sidebarName === undefined ? 'edit-post/document' : _sidebarName;
+	}, [] );
+
 	if (
 		! [ 'edit-post/document', 'edit-post/block' ].includes( sidebarName )
 	) {
@@ -41,6 +47,7 @@ const SettingsSidebar = () => {
 			closeLabel={ __( 'Close settings' ) }
 			headerClassName="edit-post-sidebar__panel-tabs"
 			isPinnable={ false }
+			isActiveByDefault={ SIDEBAR_ACTIVE_BY_DEFAULT }
 		>
 			{ sidebarName === 'edit-post/document' && (
 				<>
