@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { groupBy, isEqual, difference, remove } from 'lodash';
+import { groupBy, isEqual, difference } from 'lodash';
 
 /**
  * WordPress dependencies
@@ -131,7 +131,6 @@ export default function useNavigationBlocks( menuId ) {
 		for ( const deletedClientId of deletedClientIds ) {
 			const menuItem = menuItemsRef.current[ deletedClientId ];
 			deleteMenuItem( menuItem.id );
-			remove( deletedClientIds, deletedClientId );
 		}
 
 		createSuccessNotice( __( 'Navigation saved.' ), {
