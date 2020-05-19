@@ -70,6 +70,7 @@ export function BlockSettingsMenu( { clientIds } ) {
 				onDuplicate,
 				onInsertAfter,
 				onInsertBefore,
+				onMoveTo,
 				onRemove,
 				blocks,
 			} ) => (
@@ -132,6 +133,16 @@ export function BlockSettingsMenu( { clientIds } ) {
 													}
 												>
 													{ __( 'Duplicate' ) }
+												</MenuItem>
+											) }
+											{ ! isLocked && (
+												<MenuItem
+													onClick={ flow(
+														onClose,
+														onMoveTo
+													) }
+												>
+													{ __( 'Move To' ) }
 												</MenuItem>
 											) }
 											{ canInsertDefaultBlock && (
