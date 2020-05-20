@@ -93,6 +93,7 @@ export default function TemplateSwitcher( {
 					'postType',
 					'wp_template_part',
 					{
+						resolved: true,
 						status: [ 'publish', 'auto-draft' ],
 						theme: getCurrentTheme()?.stylesheet,
 					}
