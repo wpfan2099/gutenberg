@@ -43,17 +43,11 @@ function gutenberg_experimental_get_theme_config( $config_path, $section_name = 
  * @return array Filtered editor settings.
  */
 function gutenberg_extend_settings_features( $settings ) {
-	$theme_features                           = gutenberg_experimental_get_theme_config(
+	$theme_features                     = gutenberg_experimental_get_theme_config(
 		__DIR__ . '/experimental-default-theme.json',
 		'features'
 	);
-	$settings['__experimentalFeaturesConfig'] = $theme_features;
-
-	$theme_blocks                           = gutenberg_experimental_get_theme_config(
-		__DIR__ . '/experimental-default-theme.json',
-		'blocks'
-	);
-	$settings['__experimentalBlocksConfig'] = $theme_blocks;
+	$settings['__experimentalFeatures'] = $theme_features;
 
 	return $settings;
 }

@@ -10,14 +10,5 @@
 		"typography": {
 			"dropCap": false
 		}
-	},
-	"blocks": {
-		"core/paragraph": {
-			"features": {
-				"typography": {
-					"dropCap": true
-				}
-			}
-		}
 	}
 }

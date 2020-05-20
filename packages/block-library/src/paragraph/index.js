@@ -48,6 +48,11 @@ export const settings = {
 		__experimentalColor: Platform.OS === 'web',
 		__experimentalLineHeight: true,
 		__experimentalFontSize: true,
+		__experimentalFeatures: {
+			typography: {
+				dropCap: true,
+			},
+		},
 	},
 	__experimentalLabel( attributes, { context } ) {
 		if ( context === 'accessibility' ) {
