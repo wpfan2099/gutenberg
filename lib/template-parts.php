@@ -149,7 +149,7 @@ add_action( 'manage_wp_template_part_posts_custom_column', 'gutenberg_render_tem
 function filter_rest_wp_template_part_collection_params( $query_params ) {
 	$query_params += array(
 		'resolved' => array(
-			'description' => __( 'Whether to filter for resolved templates', 'gutenberg' ),
+			'description' => __( 'Whether to filter for resolved template parts', 'gutenberg' ),
 			'type'        => 'boolean',
 		),
 		'theme'    => array(
