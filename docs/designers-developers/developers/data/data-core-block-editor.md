@@ -1409,7 +1409,7 @@ attributes with the specified client IDs have been updated.
 
 _Parameters_
 
--   _clientIds_ `(string|Array)`: Block client IDs.
+-   _clientIds_ `(string|Array<string>)`: Block client IDs.
 -   _attributes_ `Object`: Block attributes to be merged.
 
 _Returns_
