@@ -3,12 +3,13 @@
  */
 import { __, _x } from '@wordpress/i18n';
 import { DropdownMenu, MenuGroup } from '@wordpress/components';
+import { moreVertical } from '@wordpress/icons';
 
 /**
  * Internal dependencies
  */
 import FeatureToggle from '../feature-toggle';
-import { moreVertical } from '@wordpress/icons';
+import ToolsMoreMenuGroup from '../tools-more-menu-group';
 
 const POPOVER_PROPS = {
 	className: 'edit-site-more-menu__content',
@@ -26,16 +27,21 @@ const MoreMenu = () => (
 		popoverProps={ POPOVER_PROPS }
 		toggleProps={ TOGGLE_PROPS }
 	>
-		{ () => (
-			<MenuGroup label={ _x( 'View', 'noun' ) }>
-				<FeatureToggle
-					feature="fullscreenMode"
-					label={ __( 'Fullscreen mode' ) }
-					info={ __( 'Work without distraction' ) }
-					messageActivated={ __( 'Fullscreen mode activated' ) }
-					messageDeactivated={ __( 'Fullscreen mode deactivated' ) }
-				/>
-			</MenuGroup>
+		{ ( { onClose } ) => (
+			<>
+				<MenuGroup label={ _x( 'View', 'noun' ) }>
+					<FeatureToggle
+						feature="fullscreenMode"
+						label={ __( 'Fullscreen mode' ) }
+						info={ __( 'Work without distraction' ) }
+						messageActivated={ __( 'Fullscreen mode activated' ) }
+						messageDeactivated={ __(
+							'Fullscreen mode deactivated'
+						) }
+					/>
+				</MenuGroup>
+				<ToolsMoreMenuGroup.Slot fillProps={ { onClose } } />
+			</>
 		) }
 	</DropdownMenu>
 );
